@@ -1,0 +1,4 @@
+/home/jetson/Downloads/project/lwir_camera/build/CMakeFiles/rebuild_cache.dir
+/home/jetson/Downloads/project/lwir_camera/build/CMakeFiles/edit_cache.dir
+/home/jetson/Downloads/project/lwir_camera/build/CMakeFiles/LWIR_Camera.dir
+/home/jetson/Downloads/project/lwir_camera/build/CMakeFiles/LWIR_Camera_autogen.dir
