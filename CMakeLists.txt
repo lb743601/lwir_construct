@@ -1,40 +1,31 @@
 cmake_minimum_required(VERSION 3.5)
-
 project(LWIR_Camera)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-# Find required packages
 find_package(OpenCV REQUIRED)
 find_package(Qt5 REQUIRED COMPONENTS Widgets)
-
-# Enable automatic MOC, UIC, and RCC
+find_package(HDF5 REQUIRED)
+include_directories(inc ${OpenCV_INCLUDE_DIRS} ${HDF5_INCLUDE_DIRS} ) 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
-
-# Specify additional search paths for UIC
 set(CMAKE_AUTOUIC_SEARCH_PATHS ${CMAKE_SOURCE_DIR}/ui)
-
-# Include directories
-include_directories(inc ${OpenCV_INCLUDE_DIRS})
-
-# Source and header files
 set(SOURCES
     src/main.cpp
     src/Camera.cpp
     src/SerialPort.cpp
     src/MainWindow.cpp
     src/ConstructDialog.cpp
+    src/mat2bmp.cpp
+    src/curve.cpp
+    src/SpectralPlotWidget.cpp
 )
-
 set(HEADERS
     inc/MainWindow.h
     inc/ConstructDialog.h
+    inc/mat2bmp.h
+    inc/curve.h
+    inc/SpectralPlotWidget.h
 )
-
-# Add executable
 add_executable(LWIR_Camera ${SOURCES} ${HEADERS})
-
-# Link libraries
-target_link_libraries(LWIR_Camera ${OpenCV_LIBS} Qt5::Widgets)
+target_link_libraries(LWIR_Camera ${OpenCV_LIBS} Qt5::Widgets ${HDF5_LIBRARIES}) 

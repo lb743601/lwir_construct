@@ -11,14 +11,17 @@
 #include <sstream>
 #include <QDateTime>
 #include "ConstructDialog.h"
+#include "mat2bmp.h"
+#include "curve.h"
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     camera("/dev/video0"),
     serialPort(),
     timer(new QTimer(this)),
-    constructDialog(nullptr)
-    
+    constructDialog(nullptr),
+    matdialog(nullptr),
+    curvedialog(nullptr)
     
 {
     ui->setupUi(this);
@@ -246,4 +249,18 @@ void MainWindow::on_construct_button_clicked()
         constructDialog = new ConstructDialog(this);
     }
     constructDialog->exec();  // 以模态对话框方式显示
+}
+void MainWindow::on_spectral_curve_button_clicked()
+{
+    if (!curvedialog) {
+        curvedialog = new CurveDialog(this);
+    }
+    curvedialog->exec();
+}
+void  MainWindow::on_mat2bmp_button_clicked()
+{
+ if (!matdialog) {
+        matdialog = new mat2bmp(this);
+    }
+    matdialog->exec();
 }

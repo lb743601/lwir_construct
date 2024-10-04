@@ -5,6 +5,8 @@
 #include "Camera.h"
 #include "SerialPort.h"
 class ConstructDialog;
+class mat2bmp;
+class CurveDialog;
 namespace Ui {
 class MainWindow;
 }
@@ -25,6 +27,8 @@ private slots:
     void on_save_button_clicked();
     void on_construct_button_clicked();
     void on_open_com_button_clicked();
+    void on_spectral_curve_button_clicked();
+    void on_mat2bmp_button_clicked();
     void set_dir(int state);
     
     std::string getCurrentTimeString() ;
@@ -39,6 +43,8 @@ private:
     int com_flag;
     int cam_flag;
     ConstructDialog *constructDialog; 
+    mat2bmp *matdialog;
+    CurveDialog *curvedialog;
 };
 
 #endif // MAINWINDOW_H
