@@ -65,7 +65,8 @@
         "typeindex": "cpp",
         "typeinfo": "cpp",
         "variant": "cpp",
-        "codecvt": "cpp"
+        "codecvt": "cpp",
+        "future": "cpp"
     },
     "C_Cpp.default.includePath": [
         "./inc"

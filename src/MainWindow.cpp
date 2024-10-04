@@ -16,7 +16,8 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    camera("/dev/video0"),
+    //camera("/dev/video0"),
+    daheng_cam(),
     serialPort(),
     timer(new QTimer(this)),
     constructDialog(nullptr),
@@ -35,7 +36,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow() {
     delete ui;
-    camera.close();
+    //camera.close();
+    daheng_cam.stream_off();
+    daheng_cam.close();
     //serialPort.unlock();
     serialPort.close();
 }
@@ -83,8 +86,11 @@ void MainWindow::on_openCameraButton_clicked() {
     
         if(cam_flag==0)
         {
-            if(camera.initialize())
+            if(daheng_cam.initialize())
             {
+                daheng_cam.open();
+                daheng_cam.stream_on();
+                std::cout<<"sucess"<<std::endl;
                 timer->start(30); // 每30毫秒更新一次
                 log_print("打开相机成功");
                 cam_flag=1;
@@ -96,7 +102,7 @@ void MainWindow::on_openCameraButton_clicked() {
         else
         {
             timer->stop();
-            camera.close();
+            daheng_cam.close();
             cam_flag=0;
             log_print("关闭相机成功");
             ui->openCameraButton->setText("打开相机");
@@ -107,7 +113,7 @@ void MainWindow::on_openCameraButton_clicked() {
 }
 
 void MainWindow::updateFrame() {
-    cv::Mat frame = camera.getCurrentFrame();
+    cv::Mat frame = daheng_cam.getCurrentFrame();
 
     if (!frame.empty()) {
         // 将 OpenCV 的灰度图像转换为 QImage
@@ -221,7 +227,7 @@ void MainWindow::on_auto_button_clicked()
 
 }
 void MainWindow::captureAndRotate(int step) {
-    cv::Mat frame = camera.getCurrentFrame();
+    cv::Mat frame = daheng_cam.getCurrentFrame();
     saveGrayImage(frame);
     
     QTimer::singleShot(200, [=]() {
@@ -238,7 +244,7 @@ void MainWindow::on_save_button_clicked()
 {
     if(cam_flag==1)
     {
-        cv::Mat frame = camera.getCurrentFrame();
+        cv::Mat frame = daheng_cam.getCurrentFrame();
         saveGrayImage(frame);
     }
     else log_print("未打开相机");

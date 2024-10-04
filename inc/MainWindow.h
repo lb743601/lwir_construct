@@ -1,8 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-
 #include <QMainWindow>
 #include "Camera.h"
+#include "daheng_camera.h"
 #include "SerialPort.h"
 class ConstructDialog;
 class mat2bmp;
@@ -36,7 +36,8 @@ private slots:
     void captureAndRotate(int step) ;
 private:
     Ui::MainWindow *ui;
-    Camera camera;
+    //Camera camera;
+    daheng_camera daheng_cam;
     SerialPort serialPort;
     QTimer *timer;
     int dir_flag;
