@@ -36,8 +36,8 @@ private slots:
     void captureAndRotate(int step) ;
 private:
     Ui::MainWindow *ui;
-    //Camera camera;
-    daheng_camera daheng_cam;
+    Camera camera;
+    //daheng_camera daheng_cam;
     SerialPort serialPort;
     QTimer *timer;
     int dir_flag;
