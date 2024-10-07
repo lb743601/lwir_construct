@@ -21,6 +21,7 @@ set(SOURCES
     src/curve.cpp
     src/SpectralPlotWidget.cpp
     src/daheng_camera.cpp
+    src/cam_info.cpp
 )
 set(HEADERS
     inc/MainWindow.h
@@ -31,6 +32,7 @@ set(HEADERS
     inc/daheng_camera.h
     inc/DxImageProc.h
     inc/GxIAPI.h
+    inc/cam_info.h
 
 )
 add_executable(LWIR_Camera ${SOURCES} ${HEADERS})

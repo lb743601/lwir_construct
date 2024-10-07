@@ -19,6 +19,7 @@ public:
     void stream_on();
     void stream_off();
     cv::Mat getCurrentFrame();
+    void set_exp(double extime);
 
 private:
     GX_STATUS status ;

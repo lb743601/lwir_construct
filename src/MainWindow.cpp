@@ -13,6 +13,7 @@
 #include "ConstructDialog.h"
 #include "mat2bmp.h"
 #include "curve.h"
+#include "cam_info.h"
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
@@ -22,7 +23,8 @@ MainWindow::MainWindow(QWidget *parent) :
     timer(new QTimer(this)),
     constructDialog(nullptr),
     matdialog(nullptr),
-    curvedialog(nullptr)
+    curvedialog(nullptr),
+    infodialog(nullptr)
     
 {
     ui->setupUi(this);
@@ -91,6 +93,13 @@ std::string MainWindow::getCurrentTimeString() {
     std::ostringstream oss;
     oss << std::put_time(tm_now, "%Y-%m-%d_%H-%M-%S");  // 格式化为 "YYYY-MM-DD_HH-MM-SS"
     return oss.str();
+}
+void MainWindow::on_camera_info_button_clicked()
+{
+    if (!infodialog) {
+        infodialog = new InfoDialog(this,&daheng_cam);
+    }
+    infodialog->exec();  // 以模态对话框方式显示
 }
 void MainWindow::on_openCameraButton_clicked() {
     

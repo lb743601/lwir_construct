@@ -48,8 +48,19 @@ void daheng_camera::stream_off()
 {       status = GXSendCommand(hDevice, GX_COMMAND_ACQUISITION_STOP);
         }
 void daheng_camera::stream_on()
-{status = GXSendCommand(hDevice, GX_COMMAND_ACQUISITION_START);}
+{
+    status = GXSetEnum(hDevice, GX_ENUM_EXPOSURE_MODE, GX_EXPOSURE_MODE_TIMED );
+    GX_FLOAT_RANGE shutterRange;
+    
+    status = GXGetFloatRange(hDevice, GX_FLOAT_EXPOSURE_TIME,  &shutterRange);
+    double exposuretime=20000;
+    status = GXSetFloat(hDevice, GX_FLOAT_EXPOSURE_TIME,exposuretime);
+    status = GXSendCommand(hDevice, GX_COMMAND_ACQUISITION_START);}
 cv::Mat daheng_camera::getCurrentFrame() 
 { 
     return image;
+}
+void daheng_camera::set_exp(double extime)
+{
+    status = GXSetFloat(hDevice, GX_FLOAT_EXPOSURE_TIME,extime);
 }

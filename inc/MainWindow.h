@@ -7,6 +7,7 @@
 class ConstructDialog;
 class mat2bmp;
 class CurveDialog;
+class InfoDialog;
 namespace Ui {
 class MainWindow;
 }
@@ -29,6 +30,7 @@ private slots:
     void on_open_com_button_clicked();
     void on_spectral_curve_button_clicked();
     void on_mat2bmp_button_clicked();
+    void on_camera_info_button_clicked();
     void set_dir(int state);
     void saveGrayImageInFolder(cv::Mat &grayImage, const QString &folderPath);
     std::string getCurrentTimeString() ;
@@ -46,6 +48,7 @@ private:
     ConstructDialog *constructDialog; 
     mat2bmp *matdialog;
     CurveDialog *curvedialog;
+    InfoDialog *infodialog;
 };
 
 #endif // MAINWINDOW_H
