@@ -42,7 +42,17 @@ MainWindow::~MainWindow() {
     //serialPort.unlock();
     serialPort.close();
 }
+void MainWindow::saveGrayImageInFolder(cv::Mat &grayImage, const QString &folderPath) {
+    QDateTime currentDateTime = QDateTime::currentDateTime();
+    QString currentTimeWithMilliseconds = currentDateTime.toString("yyyy-MM-dd_hh-mm-ss-zzz");
+    QString imagePath = folderPath + "/" + currentTimeWithMilliseconds + ".png"; // 图片文件路径
 
+    if (cv::imwrite(imagePath.toStdString(), grayImage)) {
+        log_print("保存成功：" + imagePath.toStdString());
+    } else {
+        log_print("保存失败");
+    }
+}
 void MainWindow::saveGrayImage(cv::Mat &grayImage) {
     // Step 1: 获取当前时间（精确到秒）
     QDateTime currentDateTime = QDateTime::currentDateTime();
@@ -226,17 +236,47 @@ void MainWindow::on_auto_button_clicked()
     
 
 }
-void MainWindow::captureAndRotate(int step) {
-    cv::Mat frame = daheng_cam.getCurrentFrame();
-    saveGrayImage(frame);
+// void MainWindow::captureAndRotate(int step) {
+//     cv::Mat frame = daheng_cam.getCurrentFrame();
+//     saveGrayImage(frame);
     
+//     QTimer::singleShot(200, [=]() {
+//         if (step < 3) {
+//             serialPort.rot(120);  // 旋转 72 度
+//             QTimer::singleShot(1500, [=]() { captureAndRotate(step + 1); });  // 延时 2 秒后拍下一张
+//         } else {
+//             //QTimer::singleShot(1000, [=]() { serialPort.rot(72); });
+//             serialPort.rot(120);  // 延时 1 秒后旋转回原位
+//         }
+//     });
+// }
+void MainWindow::captureAndRotate(int step) {
+    static QString folderPath; // 保存文件夹路径
+    if (step == 1) {
+        // 第一次调用时创建文件夹
+        QDateTime currentDateTime = QDateTime::currentDateTime();
+        QString currentTime = currentDateTime.toString("yyyy-MM-dd_hh-mm-ss");
+
+        QDir dir;
+        if (!dir.exists("./data")) {
+            dir.mkdir("./data"); // 如果 data 目录不存在，创建它
+        }
+
+        folderPath = "./data/" + currentTime;
+        if (!dir.exists(folderPath)) {
+            dir.mkdir(folderPath);
+        }
+    }
+
+    cv::Mat frame = daheng_cam.getCurrentFrame();
+    saveGrayImageInFolder(frame, folderPath); // 调用新的保存函数，并传入文件夹路径
+
     QTimer::singleShot(200, [=]() {
         if (step < 3) {
-            serialPort.rot(120);  // 旋转 72 度
-            QTimer::singleShot(1500, [=]() { captureAndRotate(step + 1); });  // 延时 2 秒后拍下一张
+            serialPort.rot(120); // 旋转 72 度
+            QTimer::singleShot(1500, [=]() { captureAndRotate(step + 1); }); // 延时 2 秒后拍下一张
         } else {
-            //QTimer::singleShot(1000, [=]() { serialPort.rot(72); });
-            serialPort.rot(120);  // 延时 1 秒后旋转回原位
+            serialPort.rot(120); // 延时 1 秒后旋转回原位
         }
     });
 }

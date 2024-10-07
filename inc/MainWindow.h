@@ -30,7 +30,7 @@ private slots:
     void on_spectral_curve_button_clicked();
     void on_mat2bmp_button_clicked();
     void set_dir(int state);
-    
+    void saveGrayImageInFolder(cv::Mat &grayImage, const QString &folderPath);
     std::string getCurrentTimeString() ;
     void saveGrayImage(cv::Mat& grayImage) ;
     void captureAndRotate(int step) ;
