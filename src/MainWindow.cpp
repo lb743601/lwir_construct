@@ -231,12 +231,12 @@ void MainWindow::captureAndRotate(int step) {
     saveGrayImage(frame);
     
     QTimer::singleShot(200, [=]() {
-        if (step < 5) {
-            serialPort.rot(72);  // 旋转 72 度
+        if (step < 3) {
+            serialPort.rot(120);  // 旋转 72 度
             QTimer::singleShot(1500, [=]() { captureAndRotate(step + 1); });  // 延时 2 秒后拍下一张
         } else {
             //QTimer::singleShot(1000, [=]() { serialPort.rot(72); });
-            serialPort.rot(72);  // 延时 1 秒后旋转回原位
+            serialPort.rot(120);  // 延时 1 秒后旋转回原位
         }
     });
 }
